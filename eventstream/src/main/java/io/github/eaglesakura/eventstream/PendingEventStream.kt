@@ -32,7 +32,7 @@ class PendingEventStream : Closeable {
     /**
      *  Stream for ViewModel.
      */
-    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
+    @Suppress("unused")
     constructor(
         savedStateKey: String,
         savedStateHandle: SavedStateHandle,
@@ -53,6 +53,7 @@ class PendingEventStream : Closeable {
     /**
      *  Stream for ViewModel.
      */
+    @Suppress("unused")
     constructor(
         lifecycleOwner: LifecycleOwner,
         savedStateKey: String,
@@ -74,14 +75,12 @@ class PendingEventStream : Closeable {
         }
     }
 
-    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     constructor(validator: (event: Event) -> Boolean) : super() {
         this.validate = validator
         this.savedStateKey = null
         this.savedStateHandle = null
     }
 
-    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     constructor(lifecycleOwner: LifecycleOwner, validator: (event: Event) -> Boolean) : this(
         validator
     ) {
@@ -93,7 +92,6 @@ class PendingEventStream : Closeable {
     /**
      * Auto close this resource.
      */
-    @Deprecated("use PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     @Suppress("MemberVisibilityCanBePrivate")
     fun autoClose(lifecycleOwner: LifecycleOwner): PendingEventStream {
         lifecycleOwner.registerFinalizer {
@@ -165,6 +163,7 @@ class PendingEventStream : Closeable {
      *      it is ExampleEvent // remove "ExampleEvent" instance from pending list.
      * }
      */
+    @Suppress("unused")
     @UiThread
     fun removeIf(block: (event: Event) -> Boolean) = lock.withLock {
         assertUIThread()
@@ -174,6 +173,8 @@ class PendingEventStream : Closeable {
     /**
      * Interrupt this event.
      */
+    @AnyThread
+    @Suppress("unused")
     fun interrupt(event: Event) {
         pushFront(event)
         UIHandler.post {
@@ -184,6 +185,7 @@ class PendingEventStream : Closeable {
     /**
      * Interrupt and force broadcast this event.
      */
+    @Suppress("unused")
     @UiThread
     fun interruptNow(event: Event) {
         assertUIThread()
@@ -195,6 +197,7 @@ class PendingEventStream : Closeable {
     /**
      *  Send or Pending next event.
      */
+    @AnyThread
     fun next(event: Event) {
         pushBack(event)
         UIHandler.post {
@@ -205,6 +208,7 @@ class PendingEventStream : Closeable {
     /**
      *  Send or Pending next event.
      */
+    @Suppress("unused")
     @UiThread
     fun nextNow(event: Event) {
         assertUIThread()
@@ -216,8 +220,9 @@ class PendingEventStream : Closeable {
     /**
      * Sort pending events.
      */
+    @Suppress("unused")
     @UiThread
-    fun sortPendingEvents(comparator: Comparator<Event>) = lock.withLock {
+    fun sortWith(comparator: Comparator<Event>) = lock.withLock {
         this.pendingEventList = this.pendingEventList.sortedWith(comparator)
     }
 
@@ -306,6 +311,7 @@ class PendingEventStream : Closeable {
     /**
      * Subscribe util.
      */
+    @Suppress("unused")
     @UiThread
     fun subscribeWhenCreated(owner: LifecycleOwner, onNext: (event: Event) -> Unit): Disposable {
         return subscribe(owner) {
@@ -316,6 +322,7 @@ class PendingEventStream : Closeable {
     /**
      * Subscribe util.
      */
+    @Suppress("unused")
     @UiThread
     fun subscribeWhenStarted(owner: LifecycleOwner, onNext: (event: Event) -> Unit): Disposable {
         return subscribe(owner) {
@@ -326,6 +333,7 @@ class PendingEventStream : Closeable {
     /**
      * Subscribe util.
      */
+    @Suppress("unused")
     @UiThread
     fun subscribeWhenResumed(owner: LifecycleOwner, onNext: (event: Event) -> Unit): Disposable {
         return subscribe(owner) {
