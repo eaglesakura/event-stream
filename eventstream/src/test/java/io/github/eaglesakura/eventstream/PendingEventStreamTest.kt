@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.event
+package io.github.eaglesakura.eventstream
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.ApplicationRuntime

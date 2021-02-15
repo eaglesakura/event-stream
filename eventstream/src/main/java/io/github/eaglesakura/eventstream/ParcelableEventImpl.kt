@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.event
+package io.github.eaglesakura.eventstream
 
 import kotlinx.parcelize.Parcelize
 
@@ -30,9 +30,8 @@ import kotlinx.parcelize.Parcelize
  *      }
  * }
  */
-@Deprecated("replace Parcelable(name)", ReplaceWith("ParcelableEvent(name)"))
 @Parcelize
-class EventId(private val name: String) : ParcelableEvent {
+internal class ParcelableEventImpl(private val name: String) : ParcelableEvent {
     override val id: Any
         get() = name
 
@@ -44,7 +43,7 @@ class EventId(private val name: String) : ParcelableEvent {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as EventId
+        other as ParcelableEventImpl
 
         if (name != other.name) return false
 

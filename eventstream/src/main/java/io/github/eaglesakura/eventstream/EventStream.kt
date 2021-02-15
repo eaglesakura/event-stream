@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.event
+package io.github.eaglesakura.eventstream
 
 import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
