@@ -32,6 +32,7 @@ class PendingEventStream : Closeable {
     /**
      *  Stream for ViewModel.
      */
+    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     constructor(
         savedStateKey: String,
         savedStateHandle: SavedStateHandle,
@@ -57,16 +58,30 @@ class PendingEventStream : Closeable {
         savedStateKey: String,
         savedStateHandle: SavedStateHandle,
         validator: (event: ParcelableEvent) -> Boolean
-    ) : this(savedStateKey, savedStateHandle, validator) {
-        autoClose(lifecycleOwner)
+    ) {
+        this.validate = {
+            require(it is ParcelableEvent)
+            validator(it)
+        }
+        this.savedStateKey = savedStateKey
+        this.savedStateHandle = savedStateHandle
+
+        // restore data.
+        _pendingEventList = savedStateHandle.getEvents(savedStateKey)
+        _mode = savedStateHandle.get<StreamMode>("$savedStateKey@mode") ?: StreamMode.Auto
+        lifecycleOwner.registerFinalizer {
+            close()
+        }
     }
 
+    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     constructor(validator: (event: Event) -> Boolean) : super() {
         this.validate = validator
         this.savedStateKey = null
         this.savedStateHandle = null
     }
 
+    @Deprecated("replace to PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     constructor(lifecycleOwner: LifecycleOwner, validator: (event: Event) -> Boolean) : this(
         validator
     ) {
@@ -78,6 +93,7 @@ class PendingEventStream : Closeable {
     /**
      * Auto close this resource.
      */
+    @Deprecated("use PendingEventStream(LifecycleOwner, String, SavedStateHandle, Validator)")
     @Suppress("MemberVisibilityCanBePrivate")
     fun autoClose(lifecycleOwner: LifecycleOwner): PendingEventStream {
         lifecycleOwner.registerFinalizer {

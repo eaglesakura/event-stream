@@ -1,1 +1,1 @@
-include(":firearm-event")
+include(":eventstream")

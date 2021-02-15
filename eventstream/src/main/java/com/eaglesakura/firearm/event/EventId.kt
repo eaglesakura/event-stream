@@ -30,6 +30,7 @@ import kotlinx.parcelize.Parcelize
  *      }
  * }
  */
+@Deprecated("replace Parcelable(name)", ReplaceWith("ParcelableEvent(name)"))
 @Parcelize
 class EventId(private val name: String) : ParcelableEvent {
     override val id: Any

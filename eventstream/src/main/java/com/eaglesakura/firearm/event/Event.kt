@@ -14,5 +14,12 @@ interface Event {
  */
 interface ParcelableEvent : Event, Parcelable
 
-@Deprecated("This interface is typo", ReplaceWith("ParcelableEvent"))
-typealias ParcerableEvent = ParcelableEvent
+/**
+ * Make an Event instance.
+ */
+fun Event(name: String): Event = ParcelableEventImpl(name)
+
+/**
+ * Make an ParcelableEvent instance.
+ */
+fun ParcelableEvent(name: String): ParcelableEvent = ParcelableEventImpl(name)
